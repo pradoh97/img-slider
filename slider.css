@@ -1,0 +1,91 @@
+body{
+  margin: 0;
+  background-color: white;
+}
+.gallery{
+  position: relative;
+  margin: 0 1em;
+}
+.slider{
+  display: grid;
+  /* el ancho de columnas puede ser fijo en píxeles */
+  grid-auto-columns:50vh;
+  grid-template-rows: 90vh;
+  grid-auto-flow: column;
+  gap: 0 1em;
+  /* overflow-x: hidden; */
+  /* Se puede dejar el scroll horizontal (y modificarlo para adaptarlo a la estética del sitio) o bien para usarlo en móviles sin emplear js */
+  overflow-x: auto;
+  overflow-y: hidden;
+  grid-column-gap: 1em;
+  padding: 1em 0;
+  /* https://contrast-ratio.com/#rgb%280%2C%200%2C%200%29-on-rgb%28230%2C%20230%2C%20230%29 contrast ratio 16.82 */
+  scrollbar-color: rgb(0, 0, 0) rgb(230, 230, 230);
+}
+.slider img{
+  object-fit: cover;
+  transition: 0.3s transform;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.3);
+}
+
+.gallery .controls .control{
+  position:absolute;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.gallery .controls .control.right{
+  right: 0;
+}
+
+.gallery .controls button{
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  transition: 0.3s opacity, 0.3s box-shadow, 0.3s background-color;
+  cursor: pointer;
+  /* si se pone height 100% va con este padding*/
+  /* padding: 0 2em; */
+  /* opcional*/
+  /*height: 100%;*/
+  padding: 10% 2em;
+}
+
+.gallery .controls button:hover{
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 4em rgba(0, 0, 0, 0.6);
+}
+.gallery .controls button:active{
+  background-color: rgba(0,0,0, 0.2);
+  box-shadow: none;
+  outline: 1px solid rgb(255, 255, 255);
+}
+
+/* Para la muestra con el celular subir a 65em y el zoom del navegador de escritorio ponerlo en 90%*/
+@media (min-width: 30em) {
+  body{
+    background-color: black;
+  }
+
+  /* https://contrast-ratio.com/#rgb%2850%2C%2050%2C%2050%29-on-rgb%28230%2C%20230%2C%20230%29 contrast ratio 10 */
+  .slider{
+    scrollbar-color: rgb(230, 230, 230) rgb(50, 50, 50);
+  }
+  .slider img{
+    box-shadow: none;
+  }
+  .slider img:hover{
+    transform: scale(1.2);
+  }
+
+  .gallery .controls button{
+    opacity: 0;
+  }
+  .gallery:hover .controls button{
+    opacity: 1;
+    box-shadow: 0 0 2em rgba(0, 0, 0, 0.4);
+  }
+}
