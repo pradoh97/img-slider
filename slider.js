@@ -3,58 +3,35 @@ const slider = gallery.querySelector('.slider');
 const controlLeft = gallery.querySelector('.control.left');
 const controlRight = gallery.querySelector('.control.right');
 
-let sliderMovementDirection;
+let direction = 0;
 
-controlLeft.addEventListener('mouseenter', () => {
-  sliderMovementDirection = 'left';
-});
-controlLeft.addEventListener('touchstart', () => {
-  sliderMovementDirection = 'left';
-});
-controlLeft.addEventListener('mousedown', () => {
-  sliderMovementDirection = 'left';
-});
-controlLeft.addEventListener('mouseup', () => sliderMovementDirection = '');
-controlLeft.addEventListener('touchend', () => sliderMovementDirection = '');
-controlLeft.addEventListener('mouseout', () => sliderMovementDirection = '');
+controlLeft.addEventListener('mouseenter', () => direction = -1);
+controlLeft.addEventListener('touchstart', () => direction = -1);
+controlLeft.addEventListener('mousedown', () => direction = -1);
+controlLeft.addEventListener('mouseout', () => direction = 0);
+controlLeft.addEventListener('touchend', () => direction = 0);
+controlLeft.addEventListener('mouseup', () => direction = 0);
 
-controlRight.addEventListener('mouseenter', () => {
-  sliderMovementDirection = 'right';
-});
-controlRight.addEventListener('mousedown', () => {
-  sliderMovementDirection = 'right';
-});
-controlRight.addEventListener('touchstart', () => {
-  sliderMovementDirection = 'right';
-});
-controlRight.addEventListener('mouseup', () => sliderMovementDirection = '');
-controlRight.addEventListener('touchend', () => sliderMovementDirection = '');
-controlRight.addEventListener('mouseout', () => sliderMovementDirection = '');
+controlRight.addEventListener('mouseenter', () => direction = 1);
+controlRight.addEventListener('touchstart', () => direction = 1);
+controlRight.addEventListener('mousedown', () => direction = 1);
+controlRight.addEventListener('mouseout', () => direction = 0);
+controlRight.addEventListener('touchend', () => direction = 0);
+controlRight.addEventListener('mouseup', () => direction = 0);
 
-function sliderStep(event, multiplier = 1, direction = 0){
+
+function sliderStep(multiplier = 1, direction){
   let offset = 0;
   let imgWidth = slider.firstElementChild.clientWidth;
 
-  if(event){
-    if(event.target == controlLeft) direction = -1;
-    else direction = 1;
-  }
-
-  offset = imgWidth * direction * multiplier;
+  offset = imgWidth * multiplier * direction;
 
   slider.scrollLeft += offset;
 }
 
-
 function moveSlider(){
-  let direction = 0;
-
-  if(sliderMovementDirection == 'left') direction = -1;
-  else if(sliderMovementDirection == 'right') direction = 1;
-
-  sliderStep(null, 0.025, direction);
+  sliderStep(0.025, direction);
 
   requestAnimationFrame(moveSlider);
 }
-
 requestAnimationFrame(moveSlider);
